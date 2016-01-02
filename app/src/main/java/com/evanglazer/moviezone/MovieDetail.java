@@ -7,7 +7,6 @@ import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -29,7 +28,6 @@ public class MovieDetail extends Fragment{
     static ArrayList<String> posters;
     static boolean sortByPop;
 
-    @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v =  inflater.inflate(R.layout.movie_detail_fragment, container, false);
@@ -66,6 +64,7 @@ public class MovieDetail extends Fragment{
     }
     public class ImageLoadTask extends AsyncTask<Void, Void, ArrayList<String>>
     {
+
         // array list will hold strings of image paths
         @Override
         protected ArrayList<String> doInBackground(Void... params) {
@@ -78,14 +77,22 @@ public class MovieDetail extends Fragment{
                 catch(Exception e){
                     continue;
             }
-        }
+            }
     }
+        @Override
+        protected void onPostExecute(ArrayList<String> strings) {
+            if(strings != null && getActivity() != null)
+            {
+                ImageAdapter adapter = new ImageAdapter(getActivity(), strings, width);
+                gridView.setAdapter(adapter);
+            }
+        }
         public String[] getPathsFromAPI(boolean sort)
         {
             String[] array = new String[15];
             for(int i = 0; i<array.length; i++)
             {
-                array[i] = "/path.jpg";
+                array[i] = "/kqjL17yufvn9OVLyXYpvtyrFfak.jpg";
             }
             return array;
 
@@ -115,7 +122,7 @@ public class MovieDetail extends Fragment{
     // check network
     public boolean isNetworkAvailable()
     {
-        ConnectivityManager connectivityManager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE )
+        ConnectivityManager connectivityManager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE );
         NetworkInfo activeNetworkInfo =  connectivityManager.getActiveNetworkInfo();
         return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
