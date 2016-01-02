@@ -6,8 +6,7 @@
     android:id="@+id/main"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context="com.evanglazer.moviezone.MainActivity"
-    android:background="@android:color/darker_gray">
+    tools:context="com.evanglazer.moviezone.MainActivity">
 
     <fragment
         android:layout_width="wrap_content"
@@ -24,19 +23,17 @@
         android:layout_height="wrap_content"
         android:name="com.evanglazer.moviezone.NavBar"
         android:id="@+id/navBar"
-        tools:layout="@layout/nav_action_fragment"
-        android:layout_alignParentTop="true"
+        android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true" />
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true" />
 
-    <GridView
-        android:layout_width="wrap_content"
-        android:layout_height="250dp"
-        android:id="@+id/gridView"
+    <GridLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_below="@+id/featuredMovie"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:numColumns="auto_fit" />
-
+        android:layout_above="@+id/navBar"></GridLayout>
 
 </RelativeLayout>
