@@ -1,6 +1,8 @@
 package com.evanglazer.moviezone;
 
 import android.app.FragmentManager;
+import android.content.Context;
+import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -8,14 +10,23 @@ import android.view.MenuItem;
 
 public class MainActivity extends AppCompatActivity {
     FragmentManager fm = getFragmentManager();
+    public static boolean TABLET = false;
 
+    public boolean isTablet(Context context)
+    {
+        boolean xlarge = ((context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == 4);
+        boolean large = ((context.getResources().getConfiguration().screenLayout & Configuration.SCREENLAYOUT_SIZE_MASK) == Configuration.SCREENLAYOUT_SIZE_LARGE);
+        return (xlarge || large);
+    }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB) {
-            fm.beginTransaction().add(R.id.main, new FeaturedMovie()).commit();
-            fm.beginTransaction().add(R.id.main, new NavBar()).commit();
+        TABLET = isTablet(this);
+        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB && savedInstanceState == null) {
+            fm.beginTransaction().replace(R.id.main, new FeaturedMovie()).commit();
+            fm.beginTransaction().replace(R.id.main, new NavBar()).commit();
+            fm.beginTransaction().replace(R.id.main, new MovieDetail()).commit();
         }
     }
 
