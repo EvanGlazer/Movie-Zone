@@ -16,21 +16,32 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.Toast;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
  * Created by Evan on 12/30/2015.
  */
-public class MovieDetail extends Fragment{
+public class MovieDetail extends Fragment {
     static GridView gridView;
     static int width;
     static ArrayList<String> posters;
     static boolean sortByPop;
+    static String API_KEY = "ea8f68dc2c7b43a3df248b9a638f5fb4";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v =  inflater.inflate(R.layout.movie_detail_fragment, container, false);
+        View v = inflater.inflate(R.layout.movie_detail_fragment, container, false);
 
         WindowManager wm = (WindowManager) getActivity().getSystemService((Context.WINDOW_SERVICE));
         Display display = wm.getDefaultDisplay();
@@ -39,18 +50,16 @@ public class MovieDetail extends Fragment{
         display.getSize(size);
 
         // change display for tablet and phone 1/6 or 1/3
-        if(MainActivity.TABLET)
-        {
-            width = size.x/6;
-        }
-        else width = size.x/3;
+        if (MainActivity.TABLET) {
+            width = size.x / 6;
+        } else width = size.x / 3;
 
         // populate 3 posters in a row
-        if(getActivity() != null)
-        {
+        if (getActivity() != null) {
             ArrayList<String> array = new ArrayList<String>();
             ImageAdapter adapter = new ImageAdapter(getActivity(), array, width);
             gridView = (GridView) v.findViewById(R.id.gridView);
+
             // 3 per row or 6 based on width windows manager
             gridView.setColumnWidth(width);
             gridView.setAdapter(adapter);
@@ -63,69 +72,124 @@ public class MovieDetail extends Fragment{
         });
         return v;
     }
-    public class ImageLoadTask extends AsyncTask<Void, Void, ArrayList<String>>
-    {
+
+    public class ImageLoadTask extends AsyncTask<Void, Void, ArrayList<String>> {
 
         // array list will hold strings of image paths
         @Override
         protected ArrayList<String> doInBackground(Void... params) {
-            while(true)
-            {
-                try{
+            while (true) {
+                try {
                     posters = new ArrayList(Arrays.asList(getPathsFromAPI(sortByPop)));
                     return posters;
-                }
-                catch(Exception e){
+                } catch (Exception e) {
                     continue;
+                }
             }
-            }
-    }
+        }
+
         @Override
         protected void onPostExecute(ArrayList<String> strings) {
-            if(strings != null && getActivity() != null)
-            {
+            if (strings != null && getActivity() != null) {
                 ImageAdapter adapter = new ImageAdapter(getActivity(), strings, width);
                 gridView.setAdapter(adapter);
             }
         }
-        public String[] getPathsFromAPI(boolean sort)
-        {
-            String[] array = new String[15];
-            for(int i = 0; i<array.length; i++)
-            {
-                array[i] = "/kqjL17yufvn9OVLyXYpvtyrFfak.jpg";
+
+        public String[] getPathsFromAPI(boolean sort) {
+            while (true) {
+                HttpURLConnection urlConnection = null;
+                BufferedReader reader = null;
+                String JSONResult;
+                try {
+                    String urlString = null;
+                    if (sortByPop) {
+                        urlString = "http://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=" + API_KEY;
+                    } else {
+                        urlString = "http://api.themoviedb.org/3/discover/movie?sort_by=vote_average.desc&vote_count.gte=500&api_key=" + API_KEY;
+                    }
+                    URL url = new URL(urlString);
+                    urlConnection = (HttpURLConnection) url.openConnection();
+                    urlConnection.setRequestMethod("GET");
+                    urlConnection.connect();
+
+                    //Read the input stream into a String
+                    InputStream inputStream = urlConnection.getInputStream();
+                    StringBuffer buffer = new StringBuffer();
+                    if (inputStream == null) {
+                        return null;
+                    }
+                    reader = new BufferedReader(new InputStreamReader(inputStream));
+                    String line;
+                    while ((line = reader.readLine()) != null) {
+                        buffer.append(line + "\n");
+                    }
+                    if (buffer.length() == 0) {
+                        return null;
+                    }
+                    JSONResult = buffer.toString();
+
+                    try {
+                        return getPathsFromJSON(JSONResult);
+                    } catch (JSONException e) {
+                        return null;
+                    }
+                } catch (Exception e) {
+                    continue;
+                } finally {
+                    if (urlConnection != null) {
+                        urlConnection.disconnect();
+                    }
+                    if (reader != null) {
+                        try {
+                            reader.close();
+                        } catch (final IOException e) {
+                        }
+                    }
+                }
+
+
             }
-            return array;
+        }
 
+        public String[] getPathsFromJSON(String JSONStringParam) throws JSONException {
+
+            JSONObject JSONString = new JSONObject(JSONStringParam);
+
+            JSONArray moviesArray = JSONString.getJSONArray("results");
+            String[] result = new String[moviesArray.length()];
+
+            for (int i = 0; i < moviesArray.length(); i++) {
+                JSONObject movie = moviesArray.getJSONObject(i);
+                String moviePath = movie.getString("poster_path");
+                result[i] = moviePath;
+            }
+            return result;
         }
     }
 
-    @Override
-    public void onStart()
-    {
-        super.onStart();
-        getActivity().setTitle("                     Movie Zone");
+        @Override
+        public void onStart() {
+            super.onStart();
+            getActivity().setTitle("                     Movie Zone");
 
 
-        // check if network is available
-        if(isNetworkAvailable())
-        {
-            gridView.setVisibility(GridView.VISIBLE);
-            new ImageLoadTask().execute();
+            // check if network is available
+            if (isNetworkAvailable()) {
+                gridView.setVisibility(GridView.VISIBLE);
+                new ImageLoadTask().execute();
+            } else {
+                Toast.makeText(getActivity(), "There is no internet connection!", Toast.LENGTH_LONG).show();
+                // gridview visibility gone
+                gridView.setVisibility(GridView.GONE);
+            }
         }
-        else
-        {
-            Toast.makeText(getActivity(), "There is no internet connection!", Toast.LENGTH_LONG).show();
-            // gridview visibility gone
-            gridView.setVisibility(GridView.GONE);
+
+
+        // check network
+        public boolean isNetworkAvailable() {
+            ConnectivityManager connectivityManager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+            return activeNetworkInfo != null && activeNetworkInfo.isConnected();
         }
     }
-
-    // check network
-    public boolean isNetworkAvailable()
-    {
-        ConnectivityManager connectivityManager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE );
-        NetworkInfo activeNetworkInfo =  connectivityManager.getActiveNetworkInfo();
-        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
-    }
-}

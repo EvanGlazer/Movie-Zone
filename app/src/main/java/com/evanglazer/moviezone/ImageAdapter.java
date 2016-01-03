@@ -18,7 +18,7 @@ public class ImageAdapter extends BaseAdapter {
     public ImageAdapter(Context c, ArrayList<String> paths, int x)
     {
         mContext = c;
-        array=paths;
+        array= paths;
         width = x;
     }
     @Override
@@ -51,13 +51,12 @@ public class ImageAdapter extends BaseAdapter {
         Picasso.with(mContext).load("http://image.tmdb.org/t/p/w185/" + array.get(position)).
                 resize(width, (int)(width*1.5)).placeholder(d).into(imageView);
         return imageView;
-
     }
 
     private Drawable resizeDrawable(Drawable image)
     {
         Bitmap b = ((BitmapDrawable)image).getBitmap();
         Bitmap bitmapResized = Bitmap.createScaledBitmap(b,width, (int)(width*1.5),false);
-        return new BitmapDrawable(mContext.getResources(),bitmapResized);
+        return new BitmapDrawable(mContext.getResources(), bitmapResized);
     }
 }
