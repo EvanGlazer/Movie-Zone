@@ -34,6 +34,7 @@ public class MovieDetail extends Fragment{
 
         WindowManager wm = (WindowManager) getActivity().getSystemService((Context.WINDOW_SERVICE));
         Display display = wm.getDefaultDisplay();
+        // coords of x and y
         Point size = new Point();
         display.getSize(size);
 
@@ -50,7 +51,7 @@ public class MovieDetail extends Fragment{
             ArrayList<String> array = new ArrayList<String>();
             ImageAdapter adapter = new ImageAdapter(getActivity(), array, width);
             gridView = (GridView) v.findViewById(R.id.gridView);
-            // 3 per row
+            // 3 per row or 6 based on width windows manager
             gridView.setColumnWidth(width);
             gridView.setAdapter(adapter);
         }
@@ -103,7 +104,8 @@ public class MovieDetail extends Fragment{
     public void onStart()
     {
         super.onStart();
-        getActivity().setTitle("Top Movies");
+        getActivity().setTitle("                     Movie Zone");
+
 
         // check if network is available
         if(isNetworkAvailable())
