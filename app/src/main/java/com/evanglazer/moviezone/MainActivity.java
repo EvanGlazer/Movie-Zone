@@ -2,6 +2,7 @@ package com.evanglazer.moviezone;
 
 import android.app.FragmentManager;
 import android.content.Context;
+import android.content.Intent;
 import android.content.res.Configuration;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -28,6 +29,7 @@ public class MainActivity extends AppCompatActivity {
             fm.beginTransaction().replace(R.id.main, new NavBar()).commit();
             fm.beginTransaction().replace(R.id.main, new MovieDetail()).commit();
         }
+
     }
 
     @Override
@@ -46,6 +48,8 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
+            Intent intent = new Intent(this,SettingActivity.class);
+            startActivity(intent);
             return true;
         }
 
