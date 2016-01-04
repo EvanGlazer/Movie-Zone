@@ -21,7 +21,7 @@
     <fragment
         android:layout_width="wrap_content"
         android:layout_height="240dp"
-        android:name="com.evanglazer.moviezone.MovieDetail"
+        android:name="com.evanglazer.moviezone.MovieHome"
         android:id="@+id/fragment"
         android:layout_below="@+id/featuredMovie"
         android:layout_alignParentLeft="true"

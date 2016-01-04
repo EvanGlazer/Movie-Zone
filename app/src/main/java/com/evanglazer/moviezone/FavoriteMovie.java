@@ -11,8 +11,14 @@ import android.widget.ImageView;
  * Created by Evan on 12/30/2015.
  */
 
-public class FeaturedMovie extends Fragment{
+public class FavoriteMovie extends Fragment{
     ImageView img;
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        getActivity().setTitle("           Movie Zone Favorites");
+    }
 
     @Override
     public void onCreate(Bundle savedInstanceState)
@@ -21,7 +27,7 @@ public class FeaturedMovie extends Fragment{
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v =  inflater.inflate(R.layout.featured_movie_fragment, container, false);
+        View v =  inflater.inflate(R.layout.fav_fragment, container, false);
         return v;
     }
 }

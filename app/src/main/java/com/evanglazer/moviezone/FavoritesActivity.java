@@ -9,7 +9,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class MainActivity extends AppCompatActivity {
+/**
+ * Created by Evan on 1/3/2016.
+ */
+public class FavoritesActivity extends AppCompatActivity {
     FragmentManager fm = getFragmentManager();
     public static boolean TABLET = false;
 
@@ -22,12 +25,11 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.favorite_activity_main);
         TABLET = isTablet(this);
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB && savedInstanceState == null) {
-            fm.beginTransaction().replace(R.id.main, new FavoriteMovie()).commit();
-            fm.beginTransaction().replace(R.id.main, new NavBar()).commit();
-            fm.beginTransaction().replace(R.id.main, new MovieHome()).commit();
+            fm.beginTransaction().replace(R.id.main1, new NavBar()).commit();
+            fm.beginTransaction().replace(R.id.main1, new FavoriteMovie()).commit();
         }
 
     }

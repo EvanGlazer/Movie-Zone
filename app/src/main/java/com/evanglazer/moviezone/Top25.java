@@ -30,9 +30,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
- * Created by Evan on 12/30/2015.
+ * Created by Evan on 1/3/2016.
  */
-public class MovieDetail extends Fragment {
+public class Top25 extends Fragment {
     static GridView gridView;
     static int width;
     static ArrayList<String> posters;
@@ -104,9 +104,9 @@ public class MovieDetail extends Fragment {
                 try {
                     String urlString = null;
                     if (sortByPop) {
-                        urlString = "http://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=" + API_KEY;
+                        urlString = "http://api.themoviedb.org/3/discover/movie?sort_by=primary_release_date.desc&api_key=" + API_KEY;
                     } else {
-                        urlString = "http://api.themoviedb.org/3/discover/movie?sort_by=vote_average.desc&vote_count.gte=500&api_key=" + API_KEY;
+                        urlString = "http://api.themoviedb.org/3/discover/movie?sort_by=primary_release_date.desc&api_key=" + API_KEY;
                     }
                     URL url = new URL(urlString);
                     urlConnection = (HttpURLConnection) url.openConnection();
@@ -168,28 +168,29 @@ public class MovieDetail extends Fragment {
         }
     }
 
-        @Override
-        public void onStart() {
-            super.onStart();
-            getActivity().setTitle("                     Movie Zone");
+    @Override
+    public void onStart() {
+        super.onStart();
+        getActivity().setTitle("                           Top 25");
 
 
-            // check if network is available
-            if (isNetworkAvailable()) {
-                gridView.setVisibility(GridView.VISIBLE);
-                new ImageLoadTask().execute();
-            } else {
-                Toast.makeText(getActivity(), "There is no internet connection!", Toast.LENGTH_LONG).show();
-                // gridview visibility gone
-                gridView.setVisibility(GridView.GONE);
-            }
-        }
-
-
-        // check network
-        public boolean isNetworkAvailable() {
-            ConnectivityManager connectivityManager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-            NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-            return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+        // check if network is available
+        if (isNetworkAvailable()) {
+            gridView.setVisibility(GridView.VISIBLE);
+            new ImageLoadTask().execute();
+        } else {
+            Toast.makeText(getActivity(), "There is no internet connection!", Toast.LENGTH_LONG).show();
+            // gridview visibility gone
+            gridView.setVisibility(GridView.GONE);
         }
     }
+
+
+    // check network
+    public boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
+    }
+}
+

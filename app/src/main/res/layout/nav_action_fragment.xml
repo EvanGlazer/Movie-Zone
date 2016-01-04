@@ -64,7 +64,6 @@
         android:text="Favorites"
         android:textColor="@android:color/white"
         android:id="@+id/textView4"
-        android:textAlignment="textStart"
         android:layout_alignRight="@+id/featured"
         android:layout_alignEnd="@+id/featured"
         android:layout_alignTop="@+id/textView2" />
