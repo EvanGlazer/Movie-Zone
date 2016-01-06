@@ -1,4 +1,4 @@
-package com.evanglazer.moviezone;
+package com.evanglazer.moviezone.fragments;
 
 import android.app.Fragment;
 import android.content.Context;
@@ -16,6 +16,11 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.Toast;
 
+import com.evanglazer.moviezone.adapters.ImageAdapter;
+import com.evanglazer.moviezone.MainActivity;
+import com.evanglazer.moviezone.R;
+import com.evanglazer.moviezone.model.MovieDetail;
+
 import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
@@ -30,9 +35,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 /**
- * Created by Evan on 1/3/2016.
+ * Created by Evan on 12/30/2015.
  */
-public class Top25 extends Fragment {
+public class MovieHome extends Fragment {
     static GridView gridView;
     static int width;
     static ArrayList<String> posters;
@@ -67,7 +72,8 @@ public class Top25 extends Fragment {
         gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                System.out.println(position);
+                MovieDetail movie = new MovieDetail();
+                movie.setGridPos(position);
             }
         });
         return v;
@@ -104,9 +110,9 @@ public class Top25 extends Fragment {
                 try {
                     String urlString = null;
                     if (sortByPop) {
-                        urlString = "http://api.themoviedb.org/3/discover/movie?sort_by=primary_release_date.desc&api_key=" + API_KEY;
+                        urlString = "http://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=" + API_KEY;
                     } else {
-                        urlString = "http://api.themoviedb.org/3/discover/movie?sort_by=primary_release_date.desc&api_key=" + API_KEY;
+                        urlString = "http://api.themoviedb.org/3/discover/movie?sort_by=vote_average.desc&vote_count.gte=500&api_key=" + API_KEY;
                     }
                     URL url = new URL(urlString);
                     urlConnection = (HttpURLConnection) url.openConnection();
@@ -168,29 +174,28 @@ public class Top25 extends Fragment {
         }
     }
 
-    @Override
-    public void onStart() {
-        super.onStart();
-        getActivity().setTitle("                           Top 25");
+        @Override
+        public void onStart() {
+            super.onStart();
+            getActivity().setTitle("                     Movie Zone");
 
 
-        // check if network is available
-        if (isNetworkAvailable()) {
-            gridView.setVisibility(GridView.VISIBLE);
-            new ImageLoadTask().execute();
-        } else {
-            Toast.makeText(getActivity(), "There is no internet connection!", Toast.LENGTH_LONG).show();
-            // gridview visibility gone
-            gridView.setVisibility(GridView.GONE);
+            // check if network is available
+            if (isNetworkAvailable()) {
+                gridView.setVisibility(GridView.VISIBLE);
+                new ImageLoadTask().execute();
+            } else {
+                Toast.makeText(getActivity(), "There is no internet connection!", Toast.LENGTH_LONG).show();
+                // gridview visibility gone
+                gridView.setVisibility(GridView.GONE);
+            }
+        }
+
+
+        // check network
+        public boolean isNetworkAvailable() {
+            ConnectivityManager connectivityManager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
+            NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+            return activeNetworkInfo != null && activeNetworkInfo.isConnected();
         }
     }
-
-
-    // check network
-    public boolean isNetworkAvailable() {
-        ConnectivityManager connectivityManager = (ConnectivityManager) getActivity().getSystemService(Context.CONNECTIVITY_SERVICE);
-        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
-        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
-    }
-}
-

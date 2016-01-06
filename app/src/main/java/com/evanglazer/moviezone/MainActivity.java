@@ -9,6 +9,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.evanglazer.moviezone.fragments.FavoriteMovie;
+import com.evanglazer.moviezone.fragments.MovieHome;
+import com.evanglazer.moviezone.fragments.NavBar;
+
 public class MainActivity extends AppCompatActivity {
     FragmentManager fm = getFragmentManager();
     public static boolean TABLET = false;

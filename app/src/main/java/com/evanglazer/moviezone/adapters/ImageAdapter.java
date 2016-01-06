@@ -1,4 +1,4 @@
-package com.evanglazer.moviezone;
+package com.evanglazer.moviezone.adapters;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -7,6 +7,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.ImageView;
+
+import com.evanglazer.moviezone.R;
 import com.squareup.picasso.Picasso;
 import java.util.ArrayList;
 

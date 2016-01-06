@@ -12,7 +12,7 @@
     <fragment
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:name="com.evanglazer.moviezone.NavBar"
+        android:name="com.evanglazer.moviezone.fragments.NavBar"
         android:id="@+id/fragment2"
         android:layout_alignParentBottom="true"
         android:layout_alignParentLeft="true"

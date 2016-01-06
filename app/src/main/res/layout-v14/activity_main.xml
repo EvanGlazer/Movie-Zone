@@ -11,7 +11,7 @@
     <fragment
         android:layout_width="fill_parent"
         android:layout_height="wrap_content"
-        android:name="com.evanglazer.moviezone.NavBar"
+        android:name="com.evanglazer.moviezone.fragments.NavBar"
         android:id="@+id/navBar"
         tools:layout="@layout/nav_action_fragment"
         android:layout_alignParentTop="true"
@@ -21,7 +21,7 @@
     <fragment
         android:layout_width="wrap_content"
         android:layout_height="240dp"
-        android:name="com.evanglazer.moviezone.MovieHome"
+        android:name="com.evanglazer.moviezone.fragments.MovieHome"
         android:id="@+id/fragment"
         android:layout_below="@+id/featuredMovie"
         android:layout_alignParentLeft="true"

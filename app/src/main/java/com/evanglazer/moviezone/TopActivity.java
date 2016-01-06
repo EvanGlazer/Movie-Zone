@@ -9,6 +9,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.evanglazer.moviezone.fragments.FavoriteMovie;
+import com.evanglazer.moviezone.fragments.NavBar;
+import com.evanglazer.moviezone.fragments.Top25;
+
 /**
  * Created by Evan on 1/3/2016.
  */

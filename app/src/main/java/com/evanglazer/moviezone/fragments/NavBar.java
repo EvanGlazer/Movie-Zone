@@ -1,4 +1,4 @@
-package com.evanglazer.moviezone;
+package com.evanglazer.moviezone.fragments;
 
 import android.app.Fragment;
 import android.content.Intent;
@@ -8,6 +8,11 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ImageButton;
+
+import com.evanglazer.moviezone.FavoritesActivity;
+import com.evanglazer.moviezone.MainActivity;
+import com.evanglazer.moviezone.R;
+import com.evanglazer.moviezone.TopActivity;
 
 /**
  * Created by Evan on 12/30/2015.

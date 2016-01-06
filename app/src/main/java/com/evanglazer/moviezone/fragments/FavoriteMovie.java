@@ -1,4 +1,4 @@
-package com.evanglazer.moviezone;
+package com.evanglazer.moviezone.fragments;
 
 import android.app.Fragment;
 import android.os.Bundle;
@@ -6,6 +6,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+
+import com.evanglazer.moviezone.R;
 
 /**
  * Created by Evan on 12/30/2015.
