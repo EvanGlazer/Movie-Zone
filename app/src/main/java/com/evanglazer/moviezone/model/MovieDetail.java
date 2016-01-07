@@ -7,12 +7,14 @@ import android.graphics.Bitmap;
  */
 public class MovieDetail {
 
-    private Bitmap poster_path;
+    private String poster_path;
     private String release_date;
     private int id;
     private String original_title;
     private double vote_average;
     private int gridPos;
+    private Bitmap bitmap;
+
 
     public int getGridPos() {
         return gridPos;
@@ -22,11 +24,11 @@ public class MovieDetail {
         this.gridPos = gridPos;
     }
 
-    public Bitmap getPoster_path() {
+    public String getPoster_path() {
         return poster_path;
     }
 
-    public void setPoster_path(Bitmap poster_path) {
+    public void setPoster_path(String poster_path) {
         this.poster_path = poster_path;
     }
 
@@ -62,6 +64,12 @@ public class MovieDetail {
         this.vote_average = vote_average;
     }
 
+    public Bitmap getBitmap() {
+        return bitmap;
+    }
+    public void setBitmap(Bitmap bitmap) {
+        this.bitmap = bitmap;
+    }
 
 
 }

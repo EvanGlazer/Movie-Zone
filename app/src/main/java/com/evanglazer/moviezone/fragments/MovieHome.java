@@ -2,6 +2,7 @@ package com.evanglazer.moviezone.fragments;
 
 import android.app.Fragment;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Point;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
@@ -16,9 +17,10 @@ import android.widget.AdapterView;
 import android.widget.GridView;
 import android.widget.Toast;
 
-import com.evanglazer.moviezone.adapters.ImageAdapter;
+import com.evanglazer.moviezone.DetailActivity;
 import com.evanglazer.moviezone.MainActivity;
 import com.evanglazer.moviezone.R;
+import com.evanglazer.moviezone.adapters.ImageAdapter;
 import com.evanglazer.moviezone.model.MovieDetail;
 
 import org.json.JSONArray;
@@ -46,7 +48,7 @@ public class MovieHome extends Fragment {
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = inflater.inflate(R.layout.movie_detail_fragment, container, false);
+        View v = inflater.inflate(R.layout.main_gridview, container, false);
 
         WindowManager wm = (WindowManager) getActivity().getSystemService((Context.WINDOW_SERVICE));
         Display display = wm.getDefaultDisplay();
@@ -74,6 +76,8 @@ public class MovieHome extends Fragment {
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                 MovieDetail movie = new MovieDetail();
                 movie.setGridPos(position);
+                Intent intent = new Intent(getActivity(), DetailActivity.class);
+                startActivity(intent);
             }
         });
         return v;
@@ -110,9 +114,9 @@ public class MovieHome extends Fragment {
                 try {
                     String urlString = null;
                     if (sortByPop) {
-                        urlString = "http://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=" + API_KEY;
+                        urlString = "http://api.themoviedb.org/3/discover/movie?sort_by=vote_average.desc&vote_count.gte=300&api_key=" + API_KEY;
                     } else {
-                        urlString = "http://api.themoviedb.org/3/discover/movie?sort_by=vote_average.desc&vote_count.gte=500&api_key=" + API_KEY;
+                        urlString = "http://api.themoviedb.org/3/discover/movie?sort_by=vote_average.desc&vote_count.gte=300&api_key=" + API_KEY;
                     }
                     URL url = new URL(urlString);
                     urlConnection = (HttpURLConnection) url.openConnection();

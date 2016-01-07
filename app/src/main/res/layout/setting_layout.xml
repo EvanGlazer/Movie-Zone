@@ -46,4 +46,25 @@
         android:layout_toRightOf="@+id/fav_sum"
         android:layout_toEndOf="@+id/fav_sum" />
 
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="This app was created by EvanGlazer.com"
+        android:id="@+id/about"
+        android:textColor="#ffffff"
+        android:layout_above="@+id/textView5"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:textAppearance="?android:attr/textAppearanceMedium"
+        android:text="Learn More about me by visiting my web page!"
+        android:id="@+id/textView5"
+        android:textColor="#ffffff"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
 </RelativeLayout>

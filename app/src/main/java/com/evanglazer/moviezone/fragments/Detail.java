@@ -2,7 +2,6 @@ package com.evanglazer.moviezone.fragments;
 
 import android.app.Fragment;
 import android.os.Bundle;
-import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -23,14 +22,18 @@ public class Detail extends Fragment {
     public void onStart() {
         super.onStart();
         // position of onclick listener for the gridview in MovieHome will be stored in here
-        m_movieDetails = movieDetails.get(m_movieDetails.getGridPos());
-        getActivity().setTitle("           "+ m_movieDetails.getOriginal_title());
+       // m_movieDetails = movieDetails.get(m_movieDetails.getGridPos());
+       // getActivity().setTitle("           "+ m_movieDetails.getOriginal_title());
     }
 
-    @Nullable
+    @Override
+    public void onCreate(Bundle savedInstanceState)
+    {
+        super.onCreate(savedInstanceState);
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         View v = inflater.inflate(R.layout.movie_detail_fragment, container, false);
         return v;
 

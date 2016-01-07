@@ -71,7 +71,7 @@ public class MovieDetailAdapter extends ArrayAdapter<MovieDetail> {
         if (bitmap != null) {
             MovieDetail detail = movieDetail.get(position);
             ImageView image = (ImageView) view.findViewById(R.id.movieView);
-            image.setImageBitmap(detail.getPoster_path());
+            image.setImageBitmap(detail.getBitmap());
         }
         else {
 
@@ -101,10 +101,10 @@ public class MovieDetailAdapter extends ArrayAdapter<MovieDetail> {
             MovieDetail detail = container.detail;
 
             try {
-                String imageUrl = DetailActivity.URL_IMAGE + detail.getGridPos();
+                String imageUrl = DetailActivity.URL_IMAGE_ENDPOINT + detail.getPoster_path();
                 InputStream in = (InputStream) new URL(imageUrl).getContent();
                 Bitmap bitmap = BitmapFactory.decodeStream(in);
-                detail.setPoster_path(bitmap);
+                detail.setBitmap(bitmap);
                 in.close();
                 container.bitmap = bitmap;
                 return container;
