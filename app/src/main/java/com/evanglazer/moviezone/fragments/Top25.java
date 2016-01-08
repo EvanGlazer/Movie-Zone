@@ -108,9 +108,9 @@ public class Top25 extends Fragment {
                 try {
                     String urlString = null;
                     if (sortByPop) {
-                        urlString = "http://api.themoviedb.org/3/discover/movie?sort_by=primary_release_date.desc&api_key=" + API_KEY;
+                        urlString = MovieHome.URI_POP_ENDPOINT  + API_KEY;
                     } else {
-                        urlString = "http://api.themoviedb.org/3/discover/movie?sort_by=primary_release_date.desc&api_key=" + API_KEY;
+                        urlString = MovieHome.URI_POP_ENDPOINT + API_KEY;
                     }
                     URL url = new URL(urlString);
                     urlConnection = (HttpURLConnection) url.openConnection();

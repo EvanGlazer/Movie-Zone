@@ -1,6 +1,7 @@
 package com.evanglazer.moviezone.fragments;
 
 import android.app.Fragment;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Point;
@@ -21,6 +22,7 @@ import com.evanglazer.moviezone.DetailActivity;
 import com.evanglazer.moviezone.MainActivity;
 import com.evanglazer.moviezone.R;
 import com.evanglazer.moviezone.adapters.ImageAdapter;
+import com.evanglazer.moviezone.api.MovieAPI;
 import com.evanglazer.moviezone.model.MovieDetail;
 
 import org.json.JSONArray;
@@ -35,20 +37,37 @@ import java.net.HttpURLConnection;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
+
+import retrofit.Callback;
+import retrofit.RestAdapter;
+import retrofit.RetrofitError;
+import retrofit.client.Response;
 
 /**
  * Created by Evan on 12/30/2015.
  */
-public class MovieHome extends Fragment {
+public class MovieHome extends Fragment implements AdapterView.OnItemClickListener {
     static GridView gridView;
     static int width;
+    Intent intent;
     static ArrayList<String> posters;
+    List<MovieDetail> detailList;
+    public static ProgressDialog loading = null;
     static boolean sortByPop;
+    static String URI_POP_ENDPOINT = "http://api.themoviedb.org/3/discover/movie?primary_release_year=2015&api_key=";
     static String API_KEY = "ea8f68dc2c7b43a3df248b9a638f5fb4";
+
+    //Strings to bind with intent will be used to send data to other activity
+    public static final String KEY_MOVIE_TITLE = "key_movie_title";
+    public static final String KEY_IMDB_RATING = "key_imdb_rating";
+    public static final String KEY_USER_RATING = "key_user_rating";
+    public static final String KEY_RELEASE_DATE = "key_release_date";
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.main_gridview, container, false);
+        loading = ProgressDialog.show(getActivity(), "Fetching Data", "Please wait...", false, false);
 
         WindowManager wm = (WindowManager) getActivity().getSystemService((Context.WINDOW_SERVICE));
         Display display = wm.getDefaultDisplay();
@@ -71,17 +90,71 @@ public class MovieHome extends Fragment {
             gridView.setColumnWidth(width);
             gridView.setAdapter(adapter);
         }
-        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                MovieDetail movie = new MovieDetail();
-                movie.setGridPos(position);
-                Intent intent = new Intent(getActivity(), DetailActivity.class);
-                startActivity(intent);
-            }
-        });
+        gridView.setOnItemClickListener(this);
         return v;
     }
+
+
+    //This method will execute on listitem click
+    @Override
+    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+        //Creating an intent
+        intent = new Intent(getActivity(), DetailActivity.class);
+
+        //Getting the requested book from the list
+        MovieDetail detail = detailList.get(position);
+        detail.current = position;
+        requestData();
+
+        //Starting another activity to show book details
+        startActivity(intent);
+    }
+
+    private void requestData(){
+        //While the app fetched data we are displaying a progress dialog
+        final ProgressDialog loading = ProgressDialog.show(getActivity(),"Fetching Data","Please wait...",false,false);
+        if(isNetworkAvailable()) {
+            //Creating a rest adapter
+            RestAdapter adapter = new RestAdapter.Builder()
+                    .setEndpoint(DetailActivity.URL_API_ENDPOINT)
+                    .build();
+
+            //Creating an object of our api interface
+            MovieAPI api = adapter.create(MovieAPI.class);
+
+            //Defining the method
+            api.getMovieDetails(new Callback<List<MovieDetail>>() {
+                @Override
+                public void success(List<MovieDetail> list, Response response) {
+                    //Dismissing the loading progressbar
+                    loading.dismiss();
+
+                    //Storing the data in our list
+                    detailList = list;
+                    MovieDetail detail = new MovieDetail();
+                    detail = detailList.get(detail.current);
+                    //Adding book details to intent
+                    intent.putExtra(KEY_MOVIE_TITLE, detail.getOriginal_title());
+                    intent.putExtra(KEY_IMDB_RATING, detail.getVote_average());
+                    intent.putExtra(KEY_USER_RATING, detail.getVote_average());
+                    intent.putExtra(KEY_RELEASE_DATE, detail.getRelease_date());
+                }
+
+                @Override
+                public void failure(RetrofitError error) {
+                    //you can handle the errors here
+                }
+            });
+        }
+        else
+        {
+            loading.dismiss();
+            Toast.makeText(getActivity(), "Cannot connect to the internet", Toast.LENGTH_LONG).show();
+        }
+    }
+
+
+
 
     public class ImageLoadTask extends AsyncTask<Void, Void, ArrayList<String>> {
 
@@ -103,6 +176,7 @@ public class MovieHome extends Fragment {
             if (strings != null && getActivity() != null) {
                 ImageAdapter adapter = new ImageAdapter(getActivity(), strings, width);
                 gridView.setAdapter(adapter);
+                loading.dismiss();
             }
         }
 
@@ -114,9 +188,9 @@ public class MovieHome extends Fragment {
                 try {
                     String urlString = null;
                     if (sortByPop) {
-                        urlString = "http://api.themoviedb.org/3/discover/movie?sort_by=vote_average.desc&vote_count.gte=300&api_key=" + API_KEY;
+                        urlString = "http://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=" + API_KEY;
                     } else {
-                        urlString = "http://api.themoviedb.org/3/discover/movie?sort_by=vote_average.desc&vote_count.gte=300&api_key=" + API_KEY;
+                        urlString = "http://api.themoviedb.org/3/discover/movie?sort_by=vote_average.desc&vote_count.gte=500&api_key=" + API_KEY;
                     }
                     URL url = new URL(urlString);
                     urlConnection = (HttpURLConnection) url.openConnection();
@@ -176,24 +250,26 @@ public class MovieHome extends Fragment {
             }
             return result;
         }
+
     }
 
-        @Override
-        public void onStart() {
-            super.onStart();
-            getActivity().setTitle("                     Movie Zone");
+    @Override
+    public void onStart() {
+        super.onStart();
+        getActivity().setTitle("                     Movie Zone");
 
 
-            // check if network is available
-            if (isNetworkAvailable()) {
-                gridView.setVisibility(GridView.VISIBLE);
-                new ImageLoadTask().execute();
-            } else {
-                Toast.makeText(getActivity(), "There is no internet connection!", Toast.LENGTH_LONG).show();
-                // gridview visibility gone
-                gridView.setVisibility(GridView.GONE);
-            }
+        // check if network is available
+        if (isNetworkAvailable()) {
+            gridView.setVisibility(GridView.VISIBLE);
+            new ImageLoadTask().execute();
+        } else {
+            Toast.makeText(getActivity(), "There is no internet connection!", Toast.LENGTH_LONG).show();
+            // gridview visibility gone
+            gridView.setVisibility(GridView.GONE);
         }
+    }
+
 
 
         // check network

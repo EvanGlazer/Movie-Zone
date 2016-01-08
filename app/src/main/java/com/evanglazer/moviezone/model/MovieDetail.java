@@ -6,7 +6,7 @@ import android.graphics.Bitmap;
  * Created by Evan on 1/6/2016.
  */
 public class MovieDetail {
-
+    public static int current = 0;
     private String poster_path;
     private String release_date;
     private int id;

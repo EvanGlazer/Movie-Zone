@@ -29,12 +29,12 @@ public class TopActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        //setContentView(R.layout.activity_main);
         TABLET = isTablet(this);
         if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.HONEYCOMB && savedInstanceState == null) {
-            fm.beginTransaction().replace(R.id.main, new FavoriteMovie()).commit();
-            fm.beginTransaction().replace(R.id.main, new NavBar()).commit();
-            fm.beginTransaction().replace(R.id.main, new Top25()).commit();
+            fm.beginTransaction().replace(R.id.main1, new FavoriteMovie()).commit();
+            fm.beginTransaction().replace(R.id.main1, new NavBar()).commit();
+            fm.beginTransaction().replace(R.id.main1, new Top25()).commit();
         }
 
     }

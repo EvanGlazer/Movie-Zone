@@ -70,54 +70,54 @@
         android:padding="10dp"
         android:layout_below="@+id/userText"
         android:layout_toLeftOf="@+id/userRatingText"
-        android:layout_toStartOf="@+id/userRatingText"
-         />
+    android:layout_toStartOf="@+id/userRatingText"
+    />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:id="@+id/releaseDateText"
-        android:layout_below="@+id/releaseText"
-        android:layout_alignRight="@+id/releaseText"
-        android:layout_alignEnd="@+id/releaseText" />
+<TextView
+android:layout_width="wrap_content"
+android:layout_height="wrap_content"
+android:textAppearance="?android:attr/textAppearanceMedium"
+android:id="@+id/releaseDateText"
+android:layout_below="@+id/releaseText"
+android:layout_alignRight="@+id/releaseText"
+android:layout_alignEnd="@+id/releaseText" />
 
-    <RelativeLayout
-        android:layout_width="fill_parent"
-        android:layout_height="fill_parent"
-        android:id="@+id/middle">
+<RelativeLayout
+android:layout_width="fill_parent"
+android:layout_height="fill_parent"
+android:id="@+id/middle">
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Trailer 1"
-            android:id="@+id/trailer1"
-            android:layout_centerVertical="true"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+<Button
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Trailer 1"
+    android:id="@+id/trailer1"
+    android:layout_centerVertical="true"
+    android:layout_alignParentLeft="true"
+    android:layout_alignParentStart="true"
+    android:layout_alignParentRight="true"
+    android:layout_alignParentEnd="true" />
 
-        <Button
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Trailer 2"
-            android:id="@+id/trailer2"
-            android:layout_below="@+id/trailer1"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
+<Button
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:text="Trailer 2"
+    android:id="@+id/trailer2"
+    android:layout_below="@+id/trailer1"
+    android:layout_alignParentLeft="true"
+    android:layout_alignParentStart="true"
+    android:layout_alignParentRight="true"
+    android:layout_alignParentEnd="true" />
 
-        <EditText
-            android:layout_width="wrap_content"
-            android:layout_height="100dp"
-            android:id="@+id/editText"
-            android:layout_below="@+id/trailer2"
-            android:layout_alignParentLeft="true"
-            android:layout_alignParentStart="true"
-            android:layout_alignParentRight="true"
-            android:layout_alignParentEnd="true" />
-    </RelativeLayout>
-
+<EditText
+    android:layout_width="wrap_content"
+    android:layout_height="100dp"
+    android:id="@+id/editText"
+    android:layout_below="@+id/trailer2"
+    android:layout_alignParentLeft="true"
+    android:layout_alignParentStart="true"
+    android:layout_alignParentRight="true"
+    android:layout_alignParentEnd="true" />
 </RelativeLayout>
+
+    </RelativeLayout>
