@@ -11,8 +11,8 @@
     android:id="@+id/top">
 
     <ImageView
-        android:layout_width="140dp"
-        android:layout_height="200dp"
+        android:layout_width="125dp"
+        android:layout_height="210dp"
         android:id="@+id/movieView"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
@@ -50,7 +50,7 @@
         android:textColor="#ffffff" />
 
         <TextView
-            android:layout_width="100dp"
+            android:layout_width="120dp"
             android:layout_height="wrap_content"
             android:textAppearance="?android:attr/textAppearanceMedium"
             android:id="@+id/releaseDateText"
@@ -69,10 +69,9 @@
                 android:text="Release Date:"
                 android:id="@+id/releaseText"
                 android:padding="10dp"
-                android:layout_alignTop="@+id/releaseDateText"
-                android:layout_toLeftOf="@+id/releaseDateText"
-                android:layout_toStartOf="@+id/releaseDateText"
-                android:textColor="#ffffff" />
+                android:textColor="#ffffff"
+                android:layout_below="@+id/userText"
+                android:layout_centerHorizontal="true" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -82,10 +81,10 @@
                 android:id="@+id/userText"
                 android:padding="10dp"
                 android:layout_centerInParent="@+id/imdbText"
+                android:textColor="#ffffff"
                 android:layout_above="@+id/releaseDateText"
                 android:layout_alignLeft="@+id/releaseText"
-                android:layout_alignStart="@+id/releaseText"
-                android:textColor="#ffffff" />
+                android:layout_alignStart="@+id/releaseText" />
 
             <TextView
                 android:layout_width="wrap_content"
@@ -94,10 +93,10 @@
                 android:text="IMDB Rating:"
                 android:id="@+id/imdbText"
                 android:padding="10dp"
-                android:layout_above="@+id/userText"
-                android:layout_toLeftOf="@+id/releaseDateText"
-                android:layout_toStartOf="@+id/releaseDateText"
-                android:textColor="#ffffff" />
+                android:textColor="#ffffff"
+                android:layout_alignTop="@+id/imdbRatingText"
+                android:layout_alignLeft="@+id/userText"
+                android:layout_alignStart="@+id/userText" />
 
             <TextView
                 android:layout_width="100dp"
@@ -106,10 +105,10 @@
                 android:id="@+id/imdbRatingText"
                 android:padding="10dp"
                 android:singleLine="true"
+                android:textColor="#ffffff"
                 android:layout_above="@+id/userText"
-                android:layout_toRightOf="@+id/imdbText"
-                android:layout_toEndOf="@+id/imdbText"
-                android:textColor="#ffffff" />
+                android:layout_toRightOf="@+id/userText"
+                android:layout_toEndOf="@+id/userText" />
 
             <TextView
                 android:layout_width="100dp"
@@ -118,10 +117,10 @@
                 android:id="@+id/userRatingText"
                 android:padding="10dp"
                 android:singleLine="true"
-                android:layout_below="@+id/imdbRatingText"
-                android:layout_toEndOf="@+id/releaseText"
                 android:textColor="#ffffff"
-                android:layout_toRightOf="@+id/releaseText" />
+                android:layout_below="@+id/imdbRatingText"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
 
         <TextView
             android:layout_width="wrap_content"

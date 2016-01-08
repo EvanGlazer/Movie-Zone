@@ -259,17 +259,19 @@ public class MovieHome extends Fragment{
             MovieDetail.original_title = new String[moviesArray.length()];;
             MovieDetail.vote_average = new Double[moviesArray.length()];;
             MovieDetail.overview = new String[moviesArray.length()];
-
+            MovieDetail.movie_id = new String[moviesArray.length()];
 
             for (int i = 0; i < moviesArray.length(); i++) {
                 JSONObject movie = moviesArray.getJSONObject(i);
 
                 String moviePath = movie.getString("poster_path");
                 String release = movie.getString("release_date");
+                String id = movie.getString("id");
                 String original = movie.getString("original_title");
                 Double vote = movie.getDouble("vote_average");
                 String desc = movie.getString("overview");
 
+                MovieDetail.movie_id[i] = id;
                 MovieDetail.poster_path[i] = moviePath;
                 MovieDetail.release_date[i] = release;
                 MovieDetail.original_title[i] = original;
