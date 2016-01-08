@@ -1,19 +1,21 @@
 package com.evanglazer.moviezone;
 
-import android.app.FragmentManager;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.TextView;
 
-import com.evanglazer.moviezone.fragments.MovieHome;
 import com.evanglazer.moviezone.model.MovieDetail;
+import com.squareup.picasso.Picasso;
 
-import java.util.List;
+import java.io.InputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 
 
 /**
@@ -23,45 +25,57 @@ public class DetailActivity extends AppCompatActivity {
 
     public static final String URL_IMAGE_ENDPOINT = "http://image.tmdb.org";
     public static final String URL_API_ENDPOINT = "http://api.themoviedb.org";
-    FragmentManager fm = getFragmentManager();
-    List<MovieDetail> details;
-    ListView listView;
-    ImageView imageView;
-    MovieDetail d;
 
+    ImageView imageView;
     TextView IMDBRating;
     TextView UserRating;
     TextView ReleaseDate;
-    TextView title;
-
+    TextView Description;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.detail_main);
-        //fm.beginTransaction().replace(R.id.main2, new Detail()).commit();
-        //fm.beginTransaction().replace(R.id.main2, new NavBar()).commit();
-        listView = (ListView) findViewById(R.id.lv);
+        setContentView(R.layout.movie_detail_fragment);
+
+        MovieDetail detail = new MovieDetail();
         imageView = (ImageView) findViewById(R.id.movieView);
         IMDBRating = (TextView) findViewById(R.id.imdbRatingText);
         UserRating = (TextView) findViewById(R.id.userRatingText);
-        ReleaseDate = (TextView) findViewById(R.id.releaseDateText);
+        ReleaseDate = (TextView)findViewById(R.id.releaseDateText);
+        Description = (TextView) findViewById(R.id.description);
 
-        Intent i = getIntent();
-        //Getting intent
-        Intent intent = getIntent();
+        String url = "http://image.tmdb.org/t/p/w185/" + MovieDetail.poster_path[detail.current];
+        Picasso.with(getApplicationContext()).load(url).placeholder(R.drawable.placeholder).into(imageView);
 
         //Displaying values by fetching from intent
-        IMDBRating.setText(String.valueOf(intent.getIntExtra(MovieHome.KEY_IMDB_RATING, 0)));
-        UserRating.setText(intent.getStringExtra(MovieHome.KEY_USER_RATING));
-        ReleaseDate.setText(intent.getStringExtra(MovieHome.KEY_RELEASE_DATE));
-        
-        //imageView.setImageURI( URL_API_ENDPOINT  );
-
-
+        setTitle(MovieDetail.original_title[detail.current]);
+        IMDBRating.setText(String.valueOf(MovieDetail.vote_average[detail.current]));
+        UserRating.setText(String.valueOf(MovieDetail.vote_average[detail.current]));
+        ReleaseDate.setText(String.valueOf(MovieDetail.release_date[detail.current]));
+        Description.setText(MovieDetail.overview[detail.current]);
     }
 
+    public Bitmap getBitmapFromURL(String src) {
+        try {
+            URL url = new URL(src);
+            HttpURLConnection connection = (HttpURLConnection) url
+                    .openConnection();
+            connection.setDoInput(true);
+            connection.connect();
+            InputStream input = connection.getInputStream();
+            Bitmap myBitmap = BitmapFactory.decodeStream(input);
+            return myBitmap;
 
+        } catch (Exception e) {
+            // TODO: handle exception
+            e.printStackTrace();
+            return null;
+        }
+    }
+    @Override
+    protected void onStart() {
+        super.onStart();
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -72,9 +86,6 @@ public class DetailActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement

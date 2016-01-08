@@ -47,7 +47,7 @@ import retrofit.client.Response;
 /**
  * Created by Evan on 12/30/2015.
  */
-public class MovieHome extends Fragment implements AdapterView.OnItemClickListener {
+public class MovieHome extends Fragment{
     static GridView gridView;
     static int width;
     Intent intent;
@@ -67,7 +67,6 @@ public class MovieHome extends Fragment implements AdapterView.OnItemClickListen
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.main_gridview, container, false);
-        loading = ProgressDialog.show(getActivity(), "Fetching Data", "Please wait...", false, false);
 
         WindowManager wm = (WindowManager) getActivity().getSystemService((Context.WINDOW_SERVICE));
         Display display = wm.getDefaultDisplay();
@@ -89,31 +88,38 @@ public class MovieHome extends Fragment implements AdapterView.OnItemClickListen
             // 3 per row or 6 based on width windows manager
             gridView.setColumnWidth(width);
             gridView.setAdapter(adapter);
+
         }
-        gridView.setOnItemClickListener(this);
+        gridView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                //Creating an intent
+                intent = new Intent(getActivity(), DetailActivity.class);
+
+                //Getting the requested book from the list
+                MovieDetail detail = new MovieDetail();
+                detail = null;
+//                detail = detailList.get(position);
+                System.out.println("...");
+                //Log.e(TAGOFMESSAGE,"Raised an exception during doInBackground Method",e);
+                detail.current = position;
+
+                requestData();
+
+                //Starting another activity to show book detail
+                startActivity(intent);
+
+            }
+        });
         return v;
     }
 
-
-    //This method will execute on listitem click
-    @Override
-    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-        //Creating an intent
-        intent = new Intent(getActivity(), DetailActivity.class);
-
-        //Getting the requested book from the list
-        MovieDetail detail = detailList.get(position);
-        detail.current = position;
-        requestData();
-
-        //Starting another activity to show book details
-        startActivity(intent);
-    }
 
     private void requestData(){
         //While the app fetched data we are displaying a progress dialog
         final ProgressDialog loading = ProgressDialog.show(getActivity(),"Fetching Data","Please wait...",false,false);
         if(isNetworkAvailable()) {
+
             //Creating a rest adapter
             RestAdapter adapter = new RestAdapter.Builder()
                     .setEndpoint(DetailActivity.URL_API_ENDPOINT)
@@ -126,23 +132,30 @@ public class MovieHome extends Fragment implements AdapterView.OnItemClickListen
             api.getMovieDetails(new Callback<List<MovieDetail>>() {
                 @Override
                 public void success(List<MovieDetail> list, Response response) {
-                    //Dismissing the loading progressbar
-                    loading.dismiss();
 
                     //Storing the data in our list
                     detailList = list;
-                    MovieDetail detail = new MovieDetail();
-                    detail = detailList.get(detail.current);
-                    //Adding book details to intent
-                    intent.putExtra(KEY_MOVIE_TITLE, detail.getOriginal_title());
-                    intent.putExtra(KEY_IMDB_RATING, detail.getVote_average());
-                    intent.putExtra(KEY_USER_RATING, detail.getVote_average());
-                    intent.putExtra(KEY_RELEASE_DATE, detail.getRelease_date());
+                   //MovieDetail detail = new MovieDetail();
+                   //detail = detailList.get(detail.current);
+                   // System.out.println("" + detail);
+
+                    //Dismissing the loading progressbar
+                    loading.dismiss();
                 }
 
                 @Override
                 public void failure(RetrofitError error) {
-                    //you can handle the errors here
+
+                    MovieDetail detail = new MovieDetail();
+                    System.out.println("Not working  " + MovieDetail.original_title[detail.current].toString());
+
+                    //Adding book details to intent
+                    intent.putExtra(KEY_MOVIE_TITLE, MovieDetail.original_title[detail.current].toString());
+                    intent.putExtra(KEY_IMDB_RATING, MovieDetail.vote_average[detail.current].doubleValue());
+                    intent.putExtra(KEY_USER_RATING, MovieDetail.vote_average[detail.current].doubleValue());
+                    intent.putExtra(KEY_RELEASE_DATE,MovieDetail.release_date[detail.current].toString());
+
+                    Bundle bundle = intent.getExtras();
                 }
             });
         }
@@ -176,7 +189,6 @@ public class MovieHome extends Fragment implements AdapterView.OnItemClickListen
             if (strings != null && getActivity() != null) {
                 ImageAdapter adapter = new ImageAdapter(getActivity(), strings, width);
                 gridView.setAdapter(adapter);
-                loading.dismiss();
             }
         }
 
@@ -188,9 +200,9 @@ public class MovieHome extends Fragment implements AdapterView.OnItemClickListen
                 try {
                     String urlString = null;
                     if (sortByPop) {
-                        urlString = "http://api.themoviedb.org/3/discover/movie?sort_by=popularity.desc&api_key=" + API_KEY;
+                        urlString = URI_POP_ENDPOINT + API_KEY;
                     } else {
-                        urlString = "http://api.themoviedb.org/3/discover/movie?sort_by=vote_average.desc&vote_count.gte=500&api_key=" + API_KEY;
+                        urlString = URI_POP_ENDPOINT + API_KEY;
                     }
                     URL url = new URL(urlString);
                     urlConnection = (HttpURLConnection) url.openConnection();
@@ -241,14 +253,30 @@ public class MovieHome extends Fragment implements AdapterView.OnItemClickListen
             JSONObject JSONString = new JSONObject(JSONStringParam);
 
             JSONArray moviesArray = JSONString.getJSONArray("results");
-            String[] result = new String[moviesArray.length()];
+
+            MovieDetail.poster_path = new String[moviesArray.length()];
+            MovieDetail.release_date = new String[moviesArray.length()];
+            MovieDetail.original_title = new String[moviesArray.length()];;
+            MovieDetail.vote_average = new Double[moviesArray.length()];;
+            MovieDetail.overview = new String[moviesArray.length()];
+
 
             for (int i = 0; i < moviesArray.length(); i++) {
                 JSONObject movie = moviesArray.getJSONObject(i);
+
                 String moviePath = movie.getString("poster_path");
-                result[i] = moviePath;
+                String release = movie.getString("release_date");
+                String original = movie.getString("original_title");
+                Double vote = movie.getDouble("vote_average");
+                String desc = movie.getString("overview");
+
+                MovieDetail.poster_path[i] = moviePath;
+                MovieDetail.release_date[i] = release;
+                MovieDetail.original_title[i] = original;
+                MovieDetail.vote_average[i] = vote;
+                MovieDetail.overview[i] = desc;
             }
-            return result;
+            return MovieDetail.poster_path;
         }
 
     }

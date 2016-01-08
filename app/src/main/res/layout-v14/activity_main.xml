@@ -9,8 +9,8 @@
     tools:context="com.evanglazer.moviezone.MainActivity">
 
     <fragment
-        android:layout_width="fill_parent"
-        android:layout_height="match_parent"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
         android:name="com.evanglazer.moviezone.fragments.NavBar"
         android:id="@+id/navBar"
         tools:layout="@layout/nav_action_fragment"
@@ -20,7 +20,7 @@
 
     <fragment
         android:layout_width="wrap_content"
-        android:layout_height="715dp"
+        android:layout_height="435dp"
         android:name="com.evanglazer.moviezone.fragments.MovieHome"
         android:id="@+id/grid_of_movies"
         android:layout_alignParentLeft="true"
@@ -29,4 +29,5 @@
 
 
 </RelativeLayout>
+
 

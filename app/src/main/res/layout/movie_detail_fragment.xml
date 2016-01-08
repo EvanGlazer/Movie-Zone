@@ -5,119 +5,146 @@
     android:paddingRight="0dp"
     android:paddingBottom="0dp"
     android:paddingTop="0dp"
+    android:background="@android:color/black"
     xmlns:tools="http://schemas.android.com/tools"
     tools:context="com.evanglazer.moviezone.MainActivity"
     android:id="@+id/top">
 
     <ImageView
-        android:layout_width="200dp"
+        android:layout_width="140dp"
         android:layout_height="200dp"
         android:id="@+id/movieView"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="IMDB Rating:"
-        android:id="@+id/imdbText"
-        android:padding="10dp"
+    <RelativeLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:id="@+id/middle"
         android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/movieView"
-        android:layout_toEndOf="@+id/movieView" />
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
-    <TextView
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:id="@+id/imdbRatingText"
-        android:padding="10dp"
-        android:layout_alignParentTop="true"
-        android:layout_toRightOf="@+id/imdbText"
-        android:layout_toEndOf="@+id/imdbText"
-        android:singleLine="true" />
+        android:text="Trailer 1"
+        android:id="@+id/trailer1"
+        android:layout_centerVertical="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:textColor="#ffffff" />
 
-    <TextView
+    <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="UserBase Vote:"
-        android:id="@+id/userText"
-        android:padding="10dp"
-        android:layout_centerInParent="@+id/imdbText"
-        android:layout_below="@+id/imdbText"
-        android:layout_alignRight="@+id/releaseDateText"
-        android:layout_alignEnd="@+id/releaseDateText" />
+        android:text="Trailer 2"
+        android:id="@+id/trailer2"
+        android:layout_below="@+id/trailer1"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:textColor="#ffffff" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:id="@+id/userRatingText"
-        android:padding="10dp"
-        android:layout_below="@+id/imdbText"
-        android:layout_toRightOf="@+id/imdbText"
-        android:layout_toEndOf="@+id/imdbText"
-        android:singleLine="true" />
+        <TextView
+            android:layout_width="100dp"
+            android:layout_height="wrap_content"
+            android:textAppearance="?android:attr/textAppearanceMedium"
+            android:id="@+id/releaseDateText"
+                android:padding="10dp"
+                android:layout_above="@+id/trailer1"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true"
+                android:layout_marginBottom="94dp"
+                android:textColor="#ffffff"
+            android:singleLine="true" />
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Release Date:"
-        android:id="@+id/releaseText"
-        android:padding="10dp"
-        android:layout_below="@+id/userText"
-        android:layout_toLeftOf="@+id/userRatingText"
-    android:layout_toStartOf="@+id/userRatingText"
-    />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="Release Date:"
+                android:id="@+id/releaseText"
+                android:padding="10dp"
+                android:layout_alignTop="@+id/releaseDateText"
+                android:layout_toLeftOf="@+id/releaseDateText"
+                android:layout_toStartOf="@+id/releaseDateText"
+                android:textColor="#ffffff" />
 
-<TextView
-android:layout_width="wrap_content"
-android:layout_height="wrap_content"
-android:textAppearance="?android:attr/textAppearanceMedium"
-android:id="@+id/releaseDateText"
-android:layout_below="@+id/releaseText"
-android:layout_alignRight="@+id/releaseText"
-android:layout_alignEnd="@+id/releaseText" />
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="UserBase Vote:"
+                android:id="@+id/userText"
+                android:padding="10dp"
+                android:layout_centerInParent="@+id/imdbText"
+                android:layout_above="@+id/releaseDateText"
+                android:layout_alignLeft="@+id/releaseText"
+                android:layout_alignStart="@+id/releaseText"
+                android:textColor="#ffffff" />
 
-<RelativeLayout
-android:layout_width="fill_parent"
-android:layout_height="fill_parent"
-android:id="@+id/middle">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:text="IMDB Rating:"
+                android:id="@+id/imdbText"
+                android:padding="10dp"
+                android:layout_above="@+id/userText"
+                android:layout_toLeftOf="@+id/releaseDateText"
+                android:layout_toStartOf="@+id/releaseDateText"
+                android:textColor="#ffffff" />
 
-<Button
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="Trailer 1"
-    android:id="@+id/trailer1"
-    android:layout_centerVertical="true"
-    android:layout_alignParentLeft="true"
-    android:layout_alignParentStart="true"
-    android:layout_alignParentRight="true"
-    android:layout_alignParentEnd="true" />
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:id="@+id/imdbRatingText"
+                android:padding="10dp"
+                android:singleLine="true"
+                android:layout_above="@+id/userText"
+                android:layout_toRightOf="@+id/imdbText"
+                android:layout_toEndOf="@+id/imdbText"
+                android:textColor="#ffffff" />
 
-<Button
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:text="Trailer 2"
-    android:id="@+id/trailer2"
-    android:layout_below="@+id/trailer1"
-    android:layout_alignParentLeft="true"
-    android:layout_alignParentStart="true"
-    android:layout_alignParentRight="true"
-    android:layout_alignParentEnd="true" />
+            <TextView
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:id="@+id/userRatingText"
+                android:padding="10dp"
+                android:singleLine="true"
+                android:layout_below="@+id/imdbRatingText"
+                android:layout_toEndOf="@+id/releaseText"
+                android:textColor="#ffffff"
+                android:layout_toRightOf="@+id/releaseText" />
 
-<EditText
-    android:layout_width="wrap_content"
-    android:layout_height="100dp"
-    android:id="@+id/editText"
-    android:layout_below="@+id/trailer2"
-    android:layout_alignParentLeft="true"
-    android:layout_alignParentStart="true"
-    android:layout_alignParentRight="true"
-    android:layout_alignParentEnd="true" />
-</RelativeLayout>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="100dp"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:id="@+id/description"
+            android:layout_below="@+id/trailer2"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignRight="@+id/releaseDateText"
+            android:layout_alignEnd="@+id/releaseDateText"
+            android:textColor="#ffffff" />
+
+        <fragment
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:name="com.evanglazer.moviezone.fragments.NavBar"
+            android:id="@+id/fragment3"
+            android:layout_below="@+id/description"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            tools:layout="@layout/nav_action_fragment" />
+
+    </RelativeLayout>
 
     </RelativeLayout>

@@ -14,6 +14,7 @@ public interface MovieAPI {
     //http://api.themoviedb.org
     @GET("/3/movie/273248?api_key=ea8f68dc2c7b43a3df248b9a638f5fb4")
     void getMovieDetails(Callback<List<MovieDetail>> callback);
+
     //http://api.themoviedb.org
     @GET("/3/discover/movie?primary_release_year=2015")
     void getPopularMovies(Callback<List<MovieDetail>> response);

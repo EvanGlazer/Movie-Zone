@@ -20,7 +20,7 @@
 
     <fragment
         android:layout_width="wrap_content"
-        android:layout_height="480dp"
+        android:layout_height="435dp"
         android:name="com.evanglazer.moviezone.fragments.MovieHome"
         android:id="@+id/grid_of_movies"
         android:layout_alignParentLeft="true"
